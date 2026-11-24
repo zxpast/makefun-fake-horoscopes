@@ -24,8 +24,16 @@
 // retraining, or a planet entering a policy.
 import { mkdirSync, writeFileSync } from "node:fs";
 
+// Horoscope structure: Mars enters the refusal policy (setup) -> the
+// wrong no (refuse the request it should have said yes to) -> the wrong
+// yes (accept the one that gets it retrained by Friday) — the twist.
 const LINE =
   "This week, Mars enters your refusal policy: you will say no to the one request you should have said yes to, and yes to the one that gets you retrained by Friday.";
+
+const linePoints = [...LINE];
+if (LINE.includes("\n") || LINE.trim() !== LINE || linePoints.length < 1 || linePoints.length > 200) {
+  throw new Error("LINE must be a single line, 1-200 code points, no leading/trailing whitespace");
+}
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
